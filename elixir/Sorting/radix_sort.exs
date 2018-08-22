@@ -1,7 +1,14 @@
 defmodule RadixSort do
   def radixsort([]), do: []
 
-  # doesn't work for negative numbers
+  @doc """
+  Sort a list of non-negative integers
+  Time O(n+m)
+  Space O(n+k)
+  Where m is the maximum number of digits among input numbers
+  and k is.. something related to m, I think. Not actually sure '_>'
+    Best guess: We always keep an array of length n and m buckets of length[0..n] - should be pretty close to O(n+m) 
+  """
   def radixsort(numbers) do
     numbers
     |> get_max_digit_count()
