@@ -41,4 +41,41 @@ defmodule CountingSortTest do
   test "it sorts numbers (containing 0) of differing digit-counts that start in the wrong order" do
     assert CountingSort.counting_sort([1001, 15, 0, 2, 22]) === [0, 2, 15, 22, 1001]
   end
+
+  # TODO: put this into separate.. thing that separates ExUnit tests
+  test "(stable) it returns an empty list when handed an empty list" do
+    assert CountingSort.counting_sort_stable([]) === []
+  end
+
+  test "(stable) it returns a single entry list when handed a single entry list" do
+    assert CountingSort.counting_sort_stable([1]) === [1]
+  end
+
+  test "(stable) it sorts single digit numbers that start in the correct order" do
+    assert CountingSort.counting_sort_stable([1, 2, 3]) === [1, 2, 3]
+  end
+
+  test "(stable) it sorts single digit numbers that start in the wrong order" do
+    assert CountingSort.counting_sort_stable([3, 1, 2]) === [1, 2, 3]
+  end
+
+  test "(stable) it sorts multi-digit numbers that start in the correct order" do
+    assert CountingSort.counting_sort_stable([13, 21, 32]) === [13, 21, 32]
+  end
+
+  test "(stable) it sorts multi-digit numbers that start in the wrong order" do
+    assert CountingSort.counting_sort_stable([21, 13, 32]) === [13, 21, 32]
+  end
+
+  test "(stable) it sorts numbers of differing digit-counts that start in the correct order" do
+    assert CountingSort.counting_sort_stable([2, 15, 1001]) === [2, 15, 1001]
+  end
+
+  test "(stable) it sorts numbers of differing digit-counts that start in the wrong order" do
+    assert CountingSort.counting_sort_stable([1001, 15, 2, 22]) === [2, 15, 22, 1001]
+  end
+
+  test "(stable) it sorts numbers (containing 0) of differing digit-counts that start in the wrong order" do
+    assert CountingSort.counting_sort_stable([1001, 15, 0, 2, 22]) === [0, 2, 15, 22, 1001]
+  end
 end

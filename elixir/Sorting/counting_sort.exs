@@ -1,7 +1,7 @@
 defmodule CountingSort do
   @doc """
   Sort a list of non-negative integers
-  Time O(n+k)
+  Time O(n+k)  [actually O(n + k * log(k)) because of map access time]
   Space O(n+k)
   Where k is a number such that all keys are in range 0..k
 
@@ -35,6 +35,36 @@ defmodule CountingSort do
         nil -> acc
         0 -> acc
         count -> [i |> List.duplicate(count) | acc]
+      end
+    end)
+  end
+
+  @doc """
+  Adjusted counting sort (still not original one) that efficiently creates a stable
+  sorted list by copying entries from the original list into a map and copying
+  from that map into a sorted list
+  """
+  def counting_sort_stable([]), do: []
+
+  def counting_sort_stable(numbers) do
+    k = Enum.max(numbers)
+
+    numbers
+    |> count_key_frequencies_stable()
+    |> build_sorted_list_stable(k)
+    |> List.flatten()
+    |> Enum.reverse()
+  end
+
+  defp count_key_frequencies_stable(numbers),
+    do: Enum.reduce(numbers, %{}, fn n, acc -> Map.update(acc, n, [n], &[n | &1]) end)
+
+  defp build_sorted_list_stable(key_frequencies, k) do
+    0..k
+    |> Enum.reduce([], fn i, acc ->
+      case Map.get(key_frequencies, i) do
+        nil -> acc
+        entries -> [entries | acc]
       end
     end)
   end
